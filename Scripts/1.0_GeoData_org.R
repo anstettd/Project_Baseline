@@ -28,7 +28,7 @@ species_count_df <- pb_all %>%
             )
 
 #Export
-write_csv(species_count_df, "data/species_count.csv")
+#write_csv(species_count_df, "data/species_count.csv")
 
 #Plot lat range versus number of pop's available
 plot(species_count_df$Number,species_count_df$Lat_Difference)
@@ -82,6 +82,8 @@ for(species_name in unique_species) {
 
 
 ####Make sf object per species and put in list
+
+species_sf_list <- list()
 
 # Loop through each unique species
 for(species_name in unique_species) {
