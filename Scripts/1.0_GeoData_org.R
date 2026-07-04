@@ -18,6 +18,9 @@ pb_all <- read_csv("Data/PB_ALL_populations.csv")
 colnames(pb_all) <- c("Species","Pop","Latitude","Longitude",
                       "site_name","survey_date","maternal_number","comments")
 
+#Print out Table of all Rudbeckia hirta pops
+pb_rh <- pb_all %>% filter(Species=="Rudbeckia hirta")
+
 #Print out table of number of pop per species
 species_count_df <- pb_all %>%
   group_by(Species) %>%
