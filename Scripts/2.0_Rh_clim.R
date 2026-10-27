@@ -2,8 +2,6 @@
 #Black-Eyed Susan Climate Differences
 #####################################################################################################
 
-# github check 
-
 #Libraries
 library(tidyverse)
 library(sf)
