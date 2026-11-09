@@ -666,7 +666,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,sans-serif;color:#20342e;background:#f7f9f6}header{padding:18px 24px;border-bottom:1px solid #dce3dc;background:white}h1{font-size:23px;margin:0;font-weight:650}header p{margin:3px 0 0;color:#5b6c63}main{display:grid;grid-template-columns:290px 1fr;min-height:640px}aside{padding:20px;border-right:1px solid #dce3dc;background:white}label{display:block;font-weight:600;margin:0 0 6px}select,button{font:inherit;padding:9px;border:1px solid #c6d2c9;border-radius:5px;background:white;color:#20342e}select{width:100%;margin-bottom:18px}button{cursor:pointer}button:hover{background:#edf3ed}#map{height:640px;background:#e9eee7}#summary{font-size:13px;color:#526558;margin-bottom:18px}#legend{padding:12px;background:#f6f8f4;border-radius:5px;font-size:13px}.gradient{height:13px;background:linear-gradient(to right,#2166ac,#f7f7f7,#b2182b);margin:8px 0}.ticks{display:flex;justify-content:space-between;font-size:12px}#selection{margin-top:20px;font-size:13px}#selection h2{font-size:16px;margin:0 0 8px}.collection{padding:10px 0;border-bottom:1px solid #dce3dc}.small{font-size:12px;color:#53655a}.notice{background:#fff5dc;padding:10px;border-radius:5px;margin:10px 0}section{padding:18px 24px}details{margin-bottom:15px}summary{cursor:pointer;font-weight:600}.tablewrap{overflow:auto;max-height:350px;border:1px solid #dce3dc;background:white}table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}th,td{padding:9px 12px;border-bottom:1px solid #e1e7e0;white-space:nowrap}th{position:sticky;top:0;background:#edf3ed}tbody tr{cursor:pointer}tbody tr:hover{background:#f1f6ee}#tabletop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}#tabletop h2{font-size:17px;margin:0}.error{padding:25px;font-size:16px}.spark{width:100%;height:110px;margin-top:6px}.leaflet-tooltip{font:13px system-ui}a{color:#185943}@media(max-width:720px){main{grid-template-columns:1fr}aside{border-right:0}#map{height:480px}header,section{padding:16px}select{margin-bottom:12px}#selection:empty{display:none}}
 select option:disabled{color:#929a95;background:#f1f2f0}</style></head><body>
 <header><h1>Project Baseline</h1></header>
-<main><aside>
+<nav role="tablist" aria-label="Project Baseline views" style="display:flex;gap:8px;padding:12px 24px;border-bottom:1px solid #dce3dc"><button id="climateTab" role="tab" aria-selected="true" aria-controls="climatePanel" type="button">Climate map</button><button id="speciesTab" role="tab" aria-selected="false" aria-controls="biodiversity" tabindex="-1" type="button">Species records</button></nav><div id="climatePanel" role="tabpanel" aria-labelledby="climateTab"><main><aside>
 <label id="taxonLabel">Genus / species</label><details id="taxonDropdown" style="position:relative;margin-bottom:18px"><summary id="taxonSummary" style="padding:9px;border:1px solid #c6d2c9;border-radius:5px;font-weight:400;background:white">All species selected</summary><div style="position:absolute;top:100%;left:0;width:max(100%,280px);max-width:85vw;background:white;z-index:1100;padding:10px;border:1px solid #c6d2c9;border-radius:5px;box-shadow:0 4px 12px #0002"><div style="display:flex;gap:6px;margin-bottom:8px"><button id="taxonAll" type="button">Select all</button><button id="taxonClear" type="button">Clear</button></div><div id="taxa" role="group" aria-labelledby="taxonLabel" style="max-height:340px;overflow:auto"></div></div></details>
 <div id="yearbox"><label for="year" id="yearLabel">Time period</label><select id="year" style="margin-bottom:6px"></select></div>
 <label style="display:flex;align-items:center;gap:8px;font-weight:400;margin-bottom:16px"><input id="comparePeriods" type="checkbox">Compare two periods</label>
@@ -677,7 +677,7 @@ select option:disabled{color:#929a95;background:#f1f2f0}</style></head><body>
 </div><div id="summary" aria-live="polite"></div><div id="legend"></div>
 <p class="small">Select a population on the map or in the table. Gray points have unavailable climate values. Coincident collections share a marker.</p>
 <div id="selection" aria-live="polite"></div>
-</aside><div id="map" aria-label="Interactive population climate map"><p style="padding:24px">Loading population map…</p></div></main>
+</aside><div id="climateMapHost"><div id="map" aria-label="Interactive population climate map"><p style="padding:24px">Loading population map…</p></div></div></main>
 <section><details><summary>How to read this map · data notes</summary>
 <p>Colors show climate at sampled population locations. These files contain point data, so the map does not imply climate coverage between sites. Selecting a time period keeps all collection sites visible; it does not filter by sampling year.</p>
 <p><b>Difference from historical average:</b> each variable is compared with its corresponding 1981–2010 normal column. Precipitation variables (MAP, MSP, PPT, PAS, including monthly and seasonal forms) use 100 × (selected − normal) / normal, expressed as a percent. All other variables use selected − normal in source units. A zero normal precipitation yields an unavailable percent anomaly. Positive moisture deficit anomalies indicate higher deficit. Values are displayed as provided; potentially unusual source values are not corrected. Anomalies measure departures from the normal, not statistical rarity.</p>
@@ -688,7 +688,18 @@ select option:disabled{color:#929a95;background:#f1f2f0}</style></head><body>
 <p>Population data, climate data, state boundaries, and the Leaflet map library are embedded in this file. The map, filters, table, and CSV download work offline. The background shows state boundaries rather than street tiles.</p></details>
 <details id="collectionDetails"><summary>View filtered collection records</summary><div style="margin-top:12px"><div id="tabletop"><div><p id="tableContext" class="small" aria-live="polite" style="margin:4px 0"></p></div><button id="download">Download filtered CSV</button></div><div class="tablewrap"><table><thead id="collectionHead"><tr><th>Population</th><th>Species</th><th>Sampled</th><th>Site</th><th>Period</th><th>Value</th><th>Difference from historical average</th></tr></thead><tbody id="rows"></tbody></table></div>
 </div></details>
-</section>
+</section></div><section id="biodiversity" role="tabpanel" aria-labelledby="speciesTab" hidden style="padding:0"><main><aside>
+
+<label for="occSite">Find collection by number, species, or site name</label><div style="position:relative"><input id="occSite" type="text" aria-describedby="occSiteHelp" style="width:100%;padding:9px"><div id="occSelectedLabel" aria-hidden="true" hidden style="position:absolute;inset:1px;padding:9px;pointer-events:none;white-space:nowrap;overflow:hidden;background:white"></div></div><div id="occSiteOptions" aria-label="Matching collections" style="max-height:200px;overflow:auto" hidden></div><p id="occSiteHelp" class="small">Select a collection, or type a species name to search all its sites. The radius applies to each site.</p>
+<label for="occRadius">Radius for this site (km)</label><input id="occRadius" type="number" min="0.1" max="500" step="0.1" value="10" required>
+<div id="occSpeciesPicker"><label for="occSpecies">Species to search</label><select id="occSpecies"></select></div>
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px"><button id="occLoad" type="button">Load records for this site</button><span id="occSearchSummary" class="small" aria-live="polite"></span></div>
+<fieldset style="margin:15px 0"><legend>Show records</legend><label><input id="occHerb" type="checkbox" checked> <span aria-hidden="true" style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#8a4d9c;margin:0 4px"></span>Herbarium specimens</label><label><input id="occInat" type="checkbox" checked> <span aria-hidden="true" style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#d27a19;margin:0 4px"></span>iNaturalist observations</label></fieldset>
+<p id="occStatus" role="status">Choose a site and load records. Site radii are saved in this browser.</p>
+</aside><div id="speciesMapHost"></div></main><div style="padding:18px 24px"><h2 style="font-size:18px">Herbarium collections through time</h2>
+<div id="occPlot"></div><div id="occSpecimens" aria-live="polite" style="margin-top:16px"></div>
+
+</div></section>
 <script>/* @preserve
  * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
  * (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade
@@ -758,7 +769,7 @@ function displayUnit(s){return s.mode!=='compare'&&s.display==='anomaly'&&meta[s
 function shown(v,s){return s.mode==='compare'?v.value:s.display==='anomaly'?v.anomaly:v.value;}
 function limits(s){ensureScale(s.m);return scales[s.m][s.mode==='compare'?'compare':s.display];}
 function color(v,s){if(v==null)return '#929a95';let [lo,hi]=limits(s);let t=hi===lo?.5:Math.max(0,Math.min(1,(v-lo)/(hi-lo)));if(meta[s.m].percent)t=1-t;const a=t<.5?[33,102,172]:[247,247,247],b=t<.5?[247,247,247]:[178,24,43];t=t<.5?t*2:(t-.5)*2;return `rgb(${a.map((x,i)=>Math.round(x+(b[i]-x)*t)).join(',')})`;}
-function showSelection(records){selected=records;const s=state(),u=s.display==='anomaly'&&meta[s.m].percent&&!isLog(s.m)?'%':valueUnit(s.m);$('selection').innerHTML=`<h2>${records.length>1?'Collections at this location':'Selected collection'}</h2>`+records.map(r=>{const v=values(r,s.m,s.mode,s.year);if(s.mode==='compare')return `<div class="collection"><b>${escapeHTML(r.species)}</b><br>Population ${escapeHTML(r.id)}<br>${escapeHTML(r.site)}<br>Sampled: ${escapeHTML(r.date)}<br>${names[s.m]}${isLog(s.m)?' · ln':''}<br>${collectionPeriod(r,s.year)}: <b>${format(v.first,valueUnit(s.m))}</b><br>${collectionPeriod(r,s.yearB)}: <b>${format(v.second,valueUnit(s.m))}</b><br>Change (${periodLabel(s.yearB)} − ${periodLabel(s.year)}): <b>${format(v.value,valueUnit(s.m),true)}</b>${spark(r,{...s,display:'actual'})}</div>`;return `<div class="collection"><b>${escapeHTML(r.species)}</b><br>Population ${escapeHTML(r.id)} · ${escapeHTML(r.state)}<br>${escapeHTML(r.site)}<br>Sampled: ${escapeHTML(r.date)}<br>Maternal number: ${escapeHTML(r.maternal||'Unavailable')}<br>Period: ${escapeHTML(period(r,s))}<br>${names[s.m]}${isLog(s.m)?' · ln':''}: <b>${format(v.value,valueUnit(s.m))}</b><br>Normal: ${format(v.normal,valueUnit(s.m))}<br>Difference from historical average: <b>${format(v.anomaly,meta[s.m].percent&&!isLog(s.m)?'%':valueUnit(s.m),true)}</b>${r.issue?`<div class="notice">${escapeHTML(r.issue)}</div>`:''}${spark(r,s)}</div>`;}).join('');}
+function showSelection(records){if(records.length)document.dispatchEvent(new CustomEvent('baseline-collection-selected',{detail:records[0]}));selected=records;const s=state(),u=s.display==='anomaly'&&meta[s.m].percent&&!isLog(s.m)?'%':valueUnit(s.m);$('selection').innerHTML=`<h2>${records.length>1?'Collections at this location':'Selected collection'}</h2>`+records.map(r=>{const v=values(r,s.m,s.mode,s.year);if(s.mode==='compare')return `<div class="collection"><b>${escapeHTML(r.species)}</b><br>Population ${escapeHTML(r.id)}<br>${escapeHTML(r.site)}<br>Sampled: ${escapeHTML(r.date)}<br>${names[s.m]}${isLog(s.m)?' · ln':''}<br>${collectionPeriod(r,s.year)}: <b>${format(v.first,valueUnit(s.m))}</b><br>${collectionPeriod(r,s.yearB)}: <b>${format(v.second,valueUnit(s.m))}</b><br>Change (${periodLabel(s.yearB)} − ${periodLabel(s.year)}): <b>${format(v.value,valueUnit(s.m),true)}</b>${spark(r,{...s,display:'actual'})}</div>`;return `<div class="collection"><b>${escapeHTML(r.species)}</b><br>Population ${escapeHTML(r.id)} · ${escapeHTML(r.state)}<br>${escapeHTML(r.site)}<br>Sampled: ${escapeHTML(r.date)}<br>Maternal number: ${escapeHTML(r.maternal||'Unavailable')}<br>Period: ${escapeHTML(period(r,s))}<br>${names[s.m]}${isLog(s.m)?' · ln':''}: <b>${format(v.value,valueUnit(s.m))}</b><br>Normal: ${format(v.normal,valueUnit(s.m))}<br>Difference from historical average: <b>${format(v.anomaly,meta[s.m].percent&&!isLog(s.m)?'%':valueUnit(s.m),true)}</b>${r.issue?`<div class="notice">${escapeHTML(r.issue)}</div>`:''}${spark(r,s)}</div>`;}).join('');}
 function spark(r,s){const vals=DATA.years.map(y=>{const v=values(r,s.m,'annual',y);return s.display==='anomaly'?v.anomaly:v.value;}), available=vals.filter(v=>v!=null);if(!available.length)return '';let lo=Math.min(...available),hi=Math.max(...available);if(lo===hi){lo-=1;hi+=1;}const x=i=>12+i*220/(vals.length-1),y=v=>70-(v-lo)*56/(hi-lo);let path='',pen=false;vals.forEach((v,i)=>{if(v==null){pen=false;return;}path+=`${pen?'L':'M'}${x(i)},${y(v)} `;pen=true;});const unit=s.display==='anomaly'&&meta[s.m].percent&&!isLog(s.m)?'%':valueUnit(s.m);return `<div class="small">Annual ${s.display==='anomaly'?'difference from historical average':'climate'} · ${unit}</div><svg class="spark" viewBox="0 0 245 105" role="img" aria-label="Annual values from 2011 through 2025"><path d="${path}" fill="none" stroke="#245d48" stroke-width="2"/><text x="12" y="88" font-size="10">2011</text><text x="207" y="88" font-size="10">2025</text><text x="12" y="101" font-size="10">Range: ${lo.toFixed(1)} to ${hi.toFixed(1)} ${unit}</text></svg>`;}
 function fit(){if(map&&filtered.length)map.fitBounds(filtered.map(r=>[r.lat,r.lon]),{padding:[30,30],maxZoom:10});}
 function usesPreCollection(){return ['pre','pre24'].includes($('year').value)||($('comparePeriods').checked&&['pre','pre24'].includes($('yearB').value));}
@@ -813,4 +824,157 @@ $('dataNotes').textContent=`${DATA.records.length} collection records are displa
 render();
 function initializeMap(){if(!window.L){$('map').innerHTML='<div class="error">The embedded map library could not initialize. You can still use the filters, table, and CSV download.</div>';return;}$('map').innerHTML='';map=L.map('map',{preferCanvas:true}).setView([38,-97],4);L.geoJSON(JSON.parse($('state-boundaries').textContent),{style:{color:'#8c9c91',weight:1,fillColor:'#f4f6ee',fillOpacity:1},interactive:false}).addTo(map);map.attributionControl.addAttribution('US state boundaries: PublicaMundi / MappingAPI');markers=L.layerGroup().addTo(map);render();fit();}
 </script><script>initializeMap();</script>
-</body></html>
+
+<script>
+(() => {
+const herbDownloadButton=document.createElement('button');herbDownloadButton.id='occDownloadHerb';herbDownloadButton.type='button';herbDownloadButton.textContent='Download CSV';herbDownloadButton.disabled=true;
+const sites=[...new Map(DATA.records.filter(r=>Number.isFinite(+r.lat)&&Number.isFinite(+r.lon)).map(r=>[`${r.id}|${r.species}|${r.lat},${r.lon}`,r])).entries()];
+let radii={};try{radii=JSON.parse(localStorage.getItem('baseline-site-radii')||'{}');}catch{}
+let loaded=null, layer=null, radiusLayer=null;
+const names=[...new Set(DATA.records.map(r=>r.species))].sort(), taxonCache=new Map();
+const siteLabel=r=>`${r.id} ${r.site||'Collection'} (${r.species})`;
+function updateSiteSuggestions(){
+ const query=$('occSite').value.trim().toLowerCase(),container=$('occSiteOptions');
+ container.replaceChildren();container.hidden=!query;
+ if(!query)return;
+ const matches=sites.filter(([,r])=>[r.id,r.species,r.site].some(value=>String(value||'').toLowerCase().includes(query)));
+ for(const [,r] of matches){
+  const button=document.createElement('button');button.type='button';button.innerHTML=`${escapeHTML(r.id)} ${escapeHTML(r.site||'Collection')} (<em>${escapeHTML(r.species)}</em>)`;button.style.cssText='display:block;width:100%;text-align:left;margin:3px 0';
+  button.onclick=()=>{$('occSite').value=siteLabel(r);container.hidden=true;updateSite();};container.appendChild(button);
+ }
+ if(!matches.length){container.textContent='No matching collections. Search by number, species, or site name.';}
+}
+updateSiteSuggestions();
+for(const name of names)$('occSpecies').add(new Option(name,name));
+function site(){
+ const text=$('occSite').value.trim(),lower=text.toLowerCase();
+ const exact=sites.find(([,r])=>siteLabel(r).toLowerCase()===lower);if(exact)return exact[1];
+ const matches=DATA.records.filter(r=>String(r.site||'').toLowerCase()===lower||String(r.id).toLowerCase()===lower||String(r.species||'').toLowerCase()===lower);
+ const collections=new Map(matches.map(r=>[`${r.species}|${r.lat},${r.lon}`,r]));if(collections.size===1)return [...collections.values()][0];
+ return null;
+}
+function searchTargets(){
+ const query=$('occSite').value.trim().toLowerCase();if(!query)return [];
+ const direct=sites.find(([,r])=>siteLabel(r).toLowerCase()===query);if(direct)return [direct[1]];
+ const speciesMatches=sites.filter(([,r])=>r.species.toLowerCase()===query);
+ const matches=speciesMatches;
+ if(matches.length)return [...new Map(matches.map(([,r])=>[`${r.species}|${r.lat},${r.lon}`,r])).values()];
+ const r=site();return r?[r]:[];
+}
+function siteKey(){const r=site();return r?`${+r.lat},${+r.lon}`:'';}
+function updateSelectedLabel(){
+ const r=site(),show=Boolean(r?.species)&&document.activeElement!==$('occSite');
+ $('occSelectedLabel').hidden=!show;
+ if(show)$('occSelectedLabel').innerHTML=`${escapeHTML(r.id)} ${escapeHTML(r.site||'Collection')} (<em>${escapeHTML(r.species)}</em>)`;
+}
+$('occSite').addEventListener('focus',()=>{$('occSelectedLabel').hidden=true;});
+$('occSite').addEventListener('blur',updateSelectedLabel);
+function syncSpecies(){updateSelectedLabel();const r=site(),hasSpecies=Boolean(r?.species);if(hasSpecies)$('occSpecies').value=r.species;$('occSpecies').disabled=hasSpecies;$('occSpeciesPicker').hidden=true;}
+function updateSite(){const r=site();syncSpecies();$('occSite').setCustomValidity(searchTargets().length?'':'Choose a collection or enter a species name.');reset();if(!searchTargets().length)$('occStatus').textContent='Select a collection or enter a species name to search all matching sites.';}
+$('occSite').addEventListener('input',()=>{$('occSite').setCustomValidity('');updateSiteSuggestions();syncSpecies();reset();if(!$('occSite').value.trim()){selectTaxa(true);$('occStatus').textContent=`Showing all ${filtered.length} collections on the map.`;}});
+$('occSite').addEventListener('keydown',event=>{
+ if(event.key!=='Enter')return;
+ event.preventDefault();
+ const query=$('occSite').value.trim().toLowerCase();if(!query)return;
+ const exact=names.filter(name=>name.toLowerCase()===query);
+ const matches=new Set(exact.length?exact:names.filter(name=>name.toLowerCase().includes(query)));
+ if(matches.size){
+  reset();
+  speciesCheckboxes.forEach((checkbox,name)=>{checkbox.checked=matches.has(name);});
+  genusCheckboxes.forEach((parent,genus)=>{const children=[...speciesCheckboxes.entries()].filter(([name])=>name.trim().split(/\s+/)[0]===genus).map(([,checkbox])=>checkbox);syncGenus(genus,children);});
+  selected=null;render();fit();$('occSiteOptions').hidden=true;
+  $('occStatus').textContent=`Showing ${filtered.length} collections on the map. Load records to search all matching sites, or click a collection to search one site.`;
+ }else{updateSite();$('occSiteOptions').hidden=true;}
+});
+document.addEventListener('baseline-collection-selected',event=>{if($('occSite').disabled)return;$('occSite').value=siteLabel(event.detail);$('occSiteOptions').hidden=true;updateSite();});
+function radius(){return $('occRadius').value.trim()===''?NaN:Number($('occRadius').value);}
+function circle(){if(!map)return;if(radiusLayer)map.removeLayer(radiusLayer);radiusLayer=L.layerGroup().addTo(map);if(Number.isFinite(radius())&&radius()>0)for(const r of searchTargets())L.circle([r.lat,r.lon],{radius:radius()*1000,color:'#8a6336',weight:1,fillOpacity:.04,interactive:false}).addTo(radiusLayer);}
+function updateSearchSummary(){const targets=searchTargets(),km=radius(),query=$('occSite').value.trim(),multi=targets.length>1;const species=[...new Set(targets.map(r=>r.species))];$('occSearchSummary').innerHTML=targets.length?`<em>${escapeHTML(species.length===1?species[0]:query)}</em> · ${multi?`${targets.length} species/site combinations`:escapeHTML(targets[0].site||targets[0].id)} · ${Number.isFinite(km)?`within ${km} km${multi?' of each site':''}`:'enter a radius in km'}`:'Choose a collection or enter a species name.';}
+function reset(){updateSearchSummary();loaded=null;herbDownloadButton.disabled=true;if(layer)layer.clearLayers();$('occPlot').innerHTML='<p style="font-size:18px">No records loaded for these settings.</p>';$('occSpecimens').replaceChildren();$('occStatus').textContent='Settings changed. Load records for this site.';circle();}
+$('occSite').onchange=updateSite;
+$('occRadius').addEventListener('input',updateSearchSummary);
+$('occRadius').onchange=()=>{if(!$('occRadius').checkValidity()){ $('occRadius').reportValidity();return;}radii[siteKey()]=radius();try{localStorage.setItem('baseline-site-radii',JSON.stringify(radii));}catch{}reset();};
+$('occSpecies').onchange=reset;
+function distance(a,b,c,d){const rad=Math.PI/180,x=Math.sin((c-a)*rad/2)**2+Math.cos(a*rad)*Math.cos(c*rad)*Math.sin((d-b)*rad/2)**2;return 6371*2*Math.asin(Math.sqrt(Math.min(1,x)));}
+async function json(url){const response=await fetch(url,{signal:AbortSignal.timeout(30000)});if(!response.ok)throw Error(`GBIF returned ${response.status}`);return response.json();}
+// Resolve to the accepted GBIF Backbone taxon: occurrence taxonKey searches
+// include its synonyms and child taxa. Never fall back to a genus-wide search.
+const gbifBackboneKey='d7dddbf4-2cf0-4f39-9b2a-bb099caae36c';
+const gbifNameFallbacks={'Mimulus guttatus':'Erythranthe guttata'};
+async function taxon(name){
+ if(taxonCache.has(name))return taxonCache.get(name);
+ const valid=t=>t.matchType!=='NONE'&&['SPECIES','SUBSPECIES','VARIETY','FORM'].includes(t.rank)&&t.usageKey;
+ let match=await json('https://api.gbif.org/v1/species/match?name='+encodeURIComponent(name));
+ if(!valid(match)&&gbifNameFallbacks[name])match=await json('https://api.gbif.org/v1/species/match?name='+encodeURIComponent(gbifNameFallbacks[name]));
+ if(!valid(match))throw Error(`No species-level GBIF match for ${name}`);
+ const key=match.acceptedUsageKey||match.usageKey;
+ taxonCache.set(name,key);return key;
+}
+function draw(){if(!loaded)return;herbDownloadButton.disabled=!loaded.records.some(r=>r.source==='herb');if(!layer&&map)layer=L.layerGroup().addTo(map);layer?.clearLayers();const herb=$('occHerb').checked,inat=$('occInat').checked,visible=loaded.records.filter(r=>r.source==='herb'?herb:inat);
+for(const r of visible){if(!map)break;L.circleMarker([r.decimalLatitude,r.decimalLongitude],{radius:4,color:r.source==='herb'?'#8a4d9c':'#d27a19',weight:1,fillOpacity:.65}).bindPopup(`<b>${escapeHTML(r.species||r.scientificName)}</b><br>${r.source==='herb'?'Herbarium specimen':'iNaturalist observation'}<br>${escapeHTML(r.eventDate||r.year||'Date unavailable')}<br>${escapeHTML(r.institutionCode||'')} ${escapeHTML(r.catalogNumber||'')}<br><a href="https://www.gbif.org/occurrence/${encodeURIComponent(r.key)}" target="_blank" rel="noopener">View GBIF record</a>`).addTo(layer);}
+const specimens=herb?loaded.records.filter(r=>r.source==='herb'):[], decades=new Map();let undated=0;
+for(const r of specimens){const year=Number(r.year);if(!Number.isInteger(year)||year<1){undated++;continue;}const decade=Math.floor(year/10)*10;decades.set(decade,(decades.get(decade)||0)+1);}
+const observed=[...decades.keys()].sort((a,b)=>a-b),points=[];
+if(observed.length)for(let decade=observed[0];decade<=observed.at(-1);decade+=10)points.push([decade,decades.get(decade)||0]);
+if(undated)points.push(['undated',undated]);
+$('occSpecimens').replaceChildren();
+if(!points.length)$('occPlot').textContent=herb?'No herbarium specimens in the loaded results.':'Enable herbarium specimens to view the plot.';
+else{const peak=Math.max(...points.map(p=>p[1])),slot=800/points.length,width=Math.max(1,slot*.8),tickEvery=Math.max(1,Math.ceil(points.length/10));
+$('occPlot').innerHTML=`<svg viewBox="0 0 900 280" role="img" aria-label="Herbarium specimen counts by decade" style="width:100%;max-height:340px"><path d="M55 35V220H870" fill="none" stroke="#555"/><text x="8" y="35">${peak}</text><text x="25" y="224">0</text>${points.map(([decade,n],i)=>{const x=55+i*slot+slot*.1,height=n/peak*180,label=`${decade==='undated'?'Undated':`${decade}–${decade+9}`}: ${n} herbarium specimen${n===1?'':'s'}`;return `<g tabindex="0" role="button" data-decade="${decade}" style="cursor:pointer" aria-label="${label}; view specimens"><title>${label}</title><rect x="${x}" y="40" width="${width}" height="180" fill="transparent"/><rect x="${x}" y="${220-height}" width="${width}" height="${height}" fill="#8a4d9c"/>${decade==='undated'||i%tickEvery===0?`<text x="${x+width/2}" y="242" text-anchor="middle" font-size="12">${decade==='undated'?'Undated':`${decade}s`}</text>`:''}</g>`;}).join('')}<text x="390" y="270">Collection decade</text></svg>`;}
+$('occStatus').textContent=`${loaded.label} · ${visible.length} visible records · ${specimens.length} herbarium specimens (${undated} undated). ${loaded.notes.join('; ')}`;
+showDecade(null,false);
+}
+function showDecade(decade=null,scroll=true){
+ if(!loaded||!$('occHerb').checked)return;
+ const records=loaded.records.filter(r=>r.source==='herb'&&(decade===null||(decade==='undated'?(!Number.isInteger(Number(r.year))||Number(r.year)<1):(Number.isInteger(Number(r.year))&&Number(r.year)>0&&Math.floor(Number(r.year)/10)*10===decade)))).sort((a,b)=>Number(a.year)-Number(b.year)||String(a.catalogNumber||'').localeCompare(String(b.catalogNumber||'')));
+ $('occSpecimens').innerHTML=`<h3>${decade===null?'All herbarium specimens':decade==='undated'?'Undated specimens':`Specimens collected ${decade}–${decade+9}`}</h3>${decade===null?'':'<button type="button" id="occSeeAll">See all specimens</button>'}<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px"><p style="margin:0">${records.length} specimen${records.length===1?'':'s'}</p><span id="occDownloadHost"></span></div><div class="tablewrap"><table><thead><tr><th>Accession / catalog number</th><th>Institution</th><th>Species</th><th>Collection date</th><th>Record</th></tr></thead><tbody>${records.map(r=>`<tr><td>${escapeHTML(r.catalogNumber||'Unavailable')}</td><td>${escapeHTML(r.institutionCode||'Unavailable')}</td><td>${escapeHTML(r.species||r.scientificName)}</td><td>${escapeHTML(r.eventDate||r.year||'Unavailable')}</td><td><a href="https://www.gbif.org/occurrence/${encodeURIComponent(r.key)}" target="_blank" rel="noopener">GBIF ${escapeHTML(r.key)}</a></td></tr>`).join('')||'<tr><td colspan="5">No specimens to display.</td></tr>'}</tbody></table></div>`;
+ $('occDownloadHost').appendChild(herbDownloadButton);
+ if($('occSeeAll'))$('occSeeAll').onclick=()=>showDecade();
+ if(scroll)$('occSpecimens').scrollIntoView({behavior:'smooth',block:'start'});
+}
+for(const id of ['occPlot']){
+ $(id).addEventListener('click',event=>{const target=event.target.closest('[data-decade]');if(target)showDecade(target.dataset.decade==='undated'?'undated':Number(target.dataset.decade));});
+ $(id).addEventListener('keydown',event=>{if((event.key==='Enter'||event.key===' ')&&event.target.matches('g[data-decade]')){event.preventDefault();showDecade(event.target.dataset.decade==='undated'?'undated':Number(event.target.dataset.decade));}});
+}
+herbDownloadButton.addEventListener('click',()=>{
+ if(!loaded)return;
+ const specimens=loaded.records.filter(r=>r.source==='herb');if(!specimens.length)return;
+ const headers=['gbif_id','accession_catalog_number','institution','collection','species','scientific_name','collection_date','year','latitude','longitude','coordinate_uncertainty_m','recorded_by','occurrence_id','dataset_key','license','record_url','search'];
+ const rows=specimens.map(r=>[r.key,r.catalogNumber,r.institutionCode,r.collectionCode,r.species,r.scientificName,r.eventDate,r.year,r.decimalLatitude,r.decimalLongitude,r.coordinateUncertaintyInMeters,r.recordedBy,r.occurrenceID,r.datasetKey,r.license,`https://www.gbif.org/occurrence/${r.key}`,loaded.label]);
+ const quote=value=>{let text=String(value??'');if(/^[=+@\t\r]/.test(text)||/^-(?!\d+(?:\.\d+)?$)/.test(text))text="'"+text;return '"'+text.replace(/"/g,'""')+'"';};
+ const csv='\uFEFF'+[headers,...rows].map(row=>row.map(quote).join(',')).join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),link=document.createElement('a');link.href=url;link.download='baseline_herbarium_specimens.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+$('occHerb').onchange=draw;$('occInat').onchange=draw;
+$('occLoad').onclick=async()=>{
+if(!$('occRadius').checkValidity()){ $('occRadius').reportValidity();return;}
+const targets=searchTargets();if(!targets.length){updateSite();$('occSite').reportValidity();return;}
+const km=radius(),label=`${$('occSite').value.trim()} · ${targets.length} species/site combinations, ${km} km`,records=new Map(),notes=[];
+const controls=['occLoad','occSite','occRadius','occSpecies'];controls.forEach(id=>$(id).disabled=true);loaded=null;herbDownloadButton.disabled=true;layer?.clearLayers();$('occPlot').textContent='Loading…';$('occSpecimens').replaceChildren();circle();
+if(map&&targets.length>1)map.fitBounds(targets.map(r=>[r.lat,r.lon]),{padding:[30,30],maxZoom:10});
+try{
+for(const [index,r] of targets.entries()){
+ const name=r.species,latDelta=km/111+0.01,lonDelta=km/(111*Math.max(.01,Math.cos(+r.lat*Math.PI/180)))+.01;
+ $('occStatus').textContent=`Loading ${index+1}/${targets.length}: ${name} at ${r.site||r.id} · ${records.size} unique records so far…`;
+ let key;try{key=await taxon(name);}catch(e){notes.push(`${name}: ${e.message}; results may be incomplete`);continue;}
+ for(const source of ['herb','inat']){
+ try{
+ const params=new URLSearchParams({taxonKey:key,checklistKey:gbifBackboneKey,hasCoordinate:'true',hasGeospatialIssue:'false',decimalLatitude:`${Math.max(-90,+r.lat-latDelta)},${Math.min(90,+r.lat+latDelta)}`,decimalLongitude:`${Math.max(-180,+r.lon-lonDelta)},${Math.min(180,+r.lon+lonDelta)}`,limit:'300'});
+ if(source==='herb')params.set('basisOfRecord','PRESERVED_SPECIMEN');else params.set('datasetKey','50c9509d-22c7-4a22-a47d-8c48425ef4a7');
+ for(let offset=0;offset<10000;offset+=300){params.set('offset',offset);params.set('limit',Math.min(300,10000-offset));const page=await json('https://api.gbif.org/v1/occurrence/search?'+params);for(const o of page.results||[])if(Number.isFinite(o.decimalLatitude)&&Number.isFinite(o.decimalLongitude)&&distance(+r.lat,+r.lon,o.decimalLatitude,o.decimalLongitude)<=km)records.set(o.key,{...o,source});if(page.endOfRecords||!page.results?.length)break;if(offset+page.results.length>=10000&&page.count>10000)notes.push(`${name} at ${r.site||r.id} ${source}: truncated at 10,000 bounding-box records`);}
+ }catch(e){notes.push(`${name} at ${r.site||r.id} ${source}: ${e.message}; results may be incomplete`);}
+ }
+}
+loaded={records:[...records.values()],notes,label};draw();
+}catch(e){$('occStatus').textContent=`Loading failed: ${e.message}. Retry to load records.`;}finally{controls.forEach(id=>$(id).disabled=false);syncSpecies();}
+};
+$('occSite').value='';updateSite();$('occRadius').value='10';reset();
+})();
+</script>
+<script>
+(() => {
+ const tabs=[$('climateTab'),$('speciesTab')],panels=[$('climatePanel'),$('biodiversity')];
+ function activate(index){tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;tab.style.background=i===index?'#dcebdc':'white';panels[i].hidden=i!==index;});$(index===0?'climateMapHost':'speciesMapHost').appendChild($('map'));if(map)map.invalidateSize();}
+ tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activate(index));tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight'||event.key==='ArrowLeft')next=1-index;else if(event.key==='Home')next=0;else if(event.key==='End')next=1;else return;event.preventDefault();activate(next);tabs[next].focus();});});activate(0);
+})();
+</script></body></html>
